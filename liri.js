@@ -4,9 +4,11 @@ var Spotify = require('node-spotify-api');
 var inquirer = require("inquirer");
 var keys = require("./keys.js");
 var axios = require("axios");
+var Rest = require("node-rest-client").Client;
 var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
+var rest = new Rest();
 
 
 //Assign Command line argument to variable
@@ -19,6 +21,13 @@ for(var i = 3; i < process.argv.length; i++){
 }
 
 // Conditional Statements to choose either Spotify or Movie
+
+if(liriFirstPrompt === 'concert-this')
+{
+  bands();
+  log(liriFirstPrompt);
+
+}
 if(liriFirstPrompt === 'spotify-this-song')
 {
     music();
@@ -101,6 +110,24 @@ function movie(){
     console.log("Actors:"+response.data.Actors+"\n");
   });
 }
+
+function bands(){
+
+  console.log("Bands is called");
+  console.log(liriSecondPrompt);
+  liriSecondPrompt = liriSecondPrompt.trim();
+  console.log(liriSecondPrompt);
+  
+  
+  rest.get("https://rest.bandsintown.com/artists/" + liriSecondPrompt + "/events?app_id=codingbootcamp", function (response) {
+    // parsed response body as js object
+    console.log(response);
+    // raw response
+    //console.log(response);
+});
+}
+  
+
   
 
 //log function that logs the commands to the file log.txt
@@ -119,18 +146,9 @@ function log(command){
 })
 }
 
-    
-    //console.log("The movie's rating is: " + //response.data.imdbRating);
-   
 
-    /*
-
-function checkPrompt(){
-if(liriPrompt != 'concert-this'          ||
-   liriPrompt != 'spotify-this-song'     ||
-   liriPrompt != 'movie-this'            ||
-   liriPrompt != 'do-what-it-says')
-   {
+/*
+if(firstPrompt === '')  
 inquirer
   .prompt([
 {
@@ -141,86 +159,14 @@ inquirer
     choices:['concert-this', 'spotify-this-song', 'movie-this', 'do-what-it-says']
 }
 ])
-.then(function(inquirerResponse){
-
-});
- }
-}
-checkPrompt();
-
-
-
-
-
-/*
-// Create a "Prompt" with a series of questions.
-inquirer
-  .prompt([
-    // Here we create a basic text prompt.
-    {
-      type: "input",
-      message: "What is your name?",
-      name: "username"
-    },
-    {
-        type: "input",
-        message: "You are having a sandwich for lunch!! What type of sandwich would you like to have?",
-        name: "lunch"
-      },
-    {
-      type: "confirm",
-      message: "Are you sure:",
-      name: "confirm",
-      default: true
-    },
-    // Here we create a basic password-protected text prompt.
-    {
-      type: "password",
-      message: "Set your password",
-      name: "password"
-    },
-    {
-      type: "confirm",
-      message: "Are you sure:",
-      name: "confirm",
-      default: true
-    },
-    // Here we give the user a list to choose from.
-    {
-      type: "list",
-      message: "Why not other sandwich",
-      choices: ["Tuna", "BLT", "Roast Beef","Turkey"],
-      name: "sandwich"
-    },
-    // Here we ask the user to confirm.
-    {
-      type: "confirm",
-      message: "Are you sure:",
-      name: "confirm",
-      default: true
-    },
-    {
-        type: "checkbox",
-        message: "What is your favorite sandwich",
-        name: "favsandwich",
-        default: "Grilled Cheese",
-        choices:['PBJ', 'Grilled Cheese', 'Roasted Chicken', 'Salami', 'Ham', 'Italian']
-    },
-    {
-        type: "confirm",
-        message: "Are you sure:",
-        name: "confirm",
-        default: true
-      }
-  ])
-  .then(function(inquirerResponse) {
-    if (inquirerResponse.confirm) {
-        console.log("\nWelcome " + inquirerResponse.username);
-        console.log("Your " + inquirerResponse.sandwich + " sandwich is ready to be consumed!\n");
-        console.log("But WHYY?? Your favorite Sandwich is " + inquirerResponse.favsandwich);
-      }
-      else {
-        console.log("\nThat's okay " + inquirerResponse.username + ", come again when you hungry.\n");
-      }
-    });
-    */
+.then(function(inquirerResponse) {
+  if (inquirerResponse.confirm) {
+      console.log("\nWelcome " + inquirerResponse.username);
+      console.log("Your " + inquirerResponse.sandwich + " sandwich is ready to be consumed!\n");
+      console.log("But WHYY?? Your favorite Sandwich is " + inquirerResponse.favsandwich);
+    }
+    else {
+      console.log("\nThat's okay " + inquirerResponse.username + ", come again when you hungry.\n");
+    }
+  });
+*/
