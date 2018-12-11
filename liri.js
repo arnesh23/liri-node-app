@@ -159,10 +159,7 @@ else {
     ])
     .then(function (inquirerResponse1) {
 
-      console.log("Choosen:" + inquirerResponse1.liriPrompt);
-
       if (inquirerResponse1.liriPrompt == "concert-this") {
-        console.log("hello");
         inquirer.prompt([
           {
             type: "input",
@@ -171,7 +168,6 @@ else {
           },
         ])
           .then(function (inquirerResponse2) {
-            console.log("Name of Band:" + inquirerResponse2.nameOfBand);
             liriFirstPrompt = "concert-this";
             liriSecondPrompt = inquirerResponse2.nameOfBand;
             bands();
@@ -189,7 +185,6 @@ else {
           },
         ])
           .then(function (inquirerResponse2) {
-            console.log("Name of Song:" + inquirerResponse2.nameOfSong);
             liriFirstPrompt = "spotify-this-song";
             liriSecondPrompt = inquirerResponse2.nameOfSong;
             music();
@@ -197,7 +192,6 @@ else {
 
       }
       if (inquirerResponse1.liriPrompt == "movie-this") {
-        console.log("hello");
         inquirer.prompt([
           {
             type: "input",
@@ -206,12 +200,8 @@ else {
           },
         ])
           .then(function (inquirerResponse2) {
-            console.log("Name of Movie:" + inquirerResponse2.nameOfMovie);
             liriFirstPrompt = "movie-this";
             liriSecondPrompt = inquirerResponse2.nameOfMovie;
-
-            console.log(liriFirstPrompt);
-            console.log(liriSecondPrompt);
             movie();
           });
       }
